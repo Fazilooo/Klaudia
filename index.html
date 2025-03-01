@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prezenty dla Klaudii</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>🎁 Prezenty dla Klaudii 🎁</h1>
+    <p>Kliknij na prezent, aby zobaczyć swoją nagrodę!</p>
+    
+    <div class="container">
+        <div class="gift" onclick="openGift(0)">🎁</div>
+        <div class="gift" onclick="openGift(1)">🎁</div>
+        <div class="gift" onclick="openGift(2)">🎁</div>
+        <div class="gift" onclick="openGift(3)">🎁</div>
+        <div class="gift" onclick="openGift(4)">🎁</div>
+        <div class="gift" onclick="openGift(5)">🎁</div>
+        <div class="gift" onclick="openGift(6)">🎁</div>
+        <div class="gift" onclick="openGift(7)">🎁</div>
+        <div class="gift" onclick="openGift(8)">🎁</div>
+        <div class="gift" onclick="openGift(9)">🎁</div>
+    </div>
+
+    <div id="rewardBox" class="hidden">
+        <p id="rewardText"></p>
+        <button onclick="closeReward()">Zamknij</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
