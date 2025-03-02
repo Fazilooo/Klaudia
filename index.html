@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urodzinowa Niespodzianka dla Klaudii</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: url('jezioro_zachod_slonca.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+        }
+        .header {
+            position: relative;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #800080;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            z-index: 2;
+        }
+        .gift-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+            gap: 20px;
+        }
+        .gift {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gift.active {
+            transform: scale(1.5);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 15px #800080;
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        .modal.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Wszystkiego najlepszego, Klaudia! 🎉</h1>
+        <p>Dziś jest Twój wyjątkowy dzień, więc przygotowałem coś specjalnego! Poniżej znajdziesz 10 prezentów 🎁 – kliknij na każdy z nich, aby odkryć niespodziankę. Mam nadzieję, że sprawią Ci uśmiech! ❤️</p>
+    </div>
+    <div class="gift-container">
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const gifts = [
+                {text: "Nagranie filmiku 🎥 Film na zamówienie. Wymyślasz, ja nagrywam. Im dziwniej, tym lepiej!"},
+                {text: "Zmiana mojego nicku 🏷️ Możesz wymyślić dla mnie dowolny nick, a ja zmieniam go na Discordzie, Steamie, FoE albo gdziekolwiek chcesz."},
+                {text: "Wyzwanie dla mnie 🔥 Jedno wyzwanie, zero wymówek. Jeśli powiesz, że mam to zrobić, robię to."},
+                {text: "Wiadomość do wybranej osoby 💬 Wybierasz osobę. Wybierasz wiadomość. I ja muszę to wysłać. Bez zmian, bez tłumaczenia, bez wahania."},
+                {text: "Szczera odpowiedź na każde pytanie 🤯 Możesz zapytać mnie o cokolwiek i nie mogę kłamać. Muszę powiedzieć prawdę. Bez kombinowania."},
+                {text: "Rozkaz w CS-ie 🎮 Możesz w dowolnym momencie wydać mi jeden rozkaz, który muszę wykonać natychmiast. Nie mogę się sprzeciwić."},
+                {text: "Klaudia wybiera mój awatar 👑 Możesz wybrać mi dowolny obrazek jako nowy awatar na Discordzie, Steamie, FoE… gdziekolwiek chcesz."},
+                {text: "Voucher na poprawę nastroju ❤️ Wystarczy, że powiesz 'Czas na magię' a ja zrobię wszystko, co w mojej mocy, by poprawić Ci humor."},
+                {text: "Zdjęcie na zamówienie 📸 Może to być cokolwiek. Ty decydujesz, a ja je wykonuję bez dyskusji."},
+                {text: "Tajemniczy prezent 🎁 A ostatni prezent… to coś, o czym teraz się nie dowiesz. Poznasz go dopiero wtedy, gdy się zobaczymy."}
+            ];
+            
+            const giftContainer = document.querySelector(".gift-container");
+            let openModal = null;
+            let activeGift = null;
+            
+            function closeOpenModal() {
+                if (openModal) {
+                    openModal.style.display = "none";
+                    openModal.classList.remove("show");
+                    if (activeGift) {
+                        activeGift.classList.remove("active");
+                        activeGift = null;
+                    }
+                }
+            }
+            
+            for (let i = 0; i < gifts.length; i++) {
+                let gift = document.createElement("img");
+                gift.src = "gift.png";
+                gift.className = "gift";
+                
+                let modal = document.createElement("div");
+                modal.className = "modal";
+                modal.innerHTML = `<p>${gifts[i].text}</p>`;
+                document.body.appendChild(modal);
+                
+                gift.addEventListener("click", function() {
+                    closeOpenModal();
+                    modal.style.display = "block";
+                    setTimeout(() => modal.classList.add("show"), 10);
+                    openModal = modal;
+                    
+                    gift.classList.add("active");
+                    activeGift = gift;
+                });
+                
+                giftContainer.appendChild(gift);
+            }
+        });
+    </script>
+</body>
+</html>
