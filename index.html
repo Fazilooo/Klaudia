@@ -64,6 +64,15 @@
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
+        .modal button {
+            background: #800080;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -100,6 +109,7 @@
                         activeGift.classList.remove("active");
                         activeGift = null;
                     }
+                    openModal = null;
                 }
             }
             
@@ -110,8 +120,11 @@
                 
                 let modal = document.createElement("div");
                 modal.className = "modal";
-                modal.innerHTML = `<p>${gifts[i].text}</p>`;
+                modal.innerHTML = `<p>${gifts[i].text}</p><button class='close-btn'>Zamknij</button>`;
                 document.body.appendChild(modal);
+                
+                let closeButton = modal.querySelector(".close-btn");
+                closeButton.addEventListener("click", closeOpenModal);
                 
                 gift.addEventListener("click", function() {
                     closeOpenModal();
