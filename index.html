@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mur Klaudii</title>
+<title>Mur TO</title>
 
 <style>
 
@@ -359,10 +359,10 @@ z-index:6000;
 
 <div class="container" id="game">
 
-    <h1>🧱 Gra: Niszczenie muru Klaudii™</h1>
+    <h1>🧱 Niszczenie muru by zdobyć</h1>
 
     <div class="subtitle">
-        Status: AKTYWNY ⚠️
+        Discord Nitro ⚠️
     </div>
 
 
@@ -386,17 +386,17 @@ z-index:6000;
 <div id="questionBox">
 
         <div class="question">
-            To co… może w końcu mur upadł?
+            Czujesz satysfakcję z zakończenia gry?
         </div>
 
         <div class="buttons">
 
             <button id="yesBtn">
-                TAK 😳
+                TAK 
             </button>
 
             <button id="noBtn">
-                NIE 🙄
+                NIE 
             </button>
 
         </div>
@@ -413,22 +413,16 @@ z-index:6000;
 
     <div class="finalText">
 
-        Klaudia oficjalnie naruszyła mur emocjonalny.<br><br>
+        Mur oficjalnie upadł!.<br><br>
 
-        Wykryto podejrzanie wysoki poziom przywiązania
-        do użytkownika „Daniel”.<br><br>
+        Twój kod do discord nitro znajduje się poniżej:<br><br>
 
-        Aby zakończyć proces,
-        wyślij teraz do niego jedną z poniższych wiadomości:<br><br>
-
-        • „idiota”<br>
-        • „debil”<br>
-        • „spadaj”<br>
+        xxx<br><br>
 
     </div>
 
     <div class="small">
-        Emotional Firewall Disabled
+        Gratulujemy wygranej!
     </div>
 
 </div>
@@ -442,13 +436,9 @@ const questionBox = document.getElementById("questionBox");
 const texts = [
 
     "Mur otrzymał obrażenia krytyczne 💥",
-    "Klaudia próbuje zachować chłód 😶",
-    "Wykryto lekkie rozbawienie 👀",
-    "Emocjonalny firewall osłabiony ⚠️",
-    "No nie oszukuj systemu 😎",
-    "Mur traci stabilność 🧱",
-    "Daniel użył: upierdliwy urok ✨",
-    "Administrator zaczyna panikować 🚨"
+    "Mur powoli upada!",
+    "Kolejna cegła spada",
+    "Mur traci stabilność 🧱"
 
 ];
 
@@ -472,7 +462,7 @@ const brickTypes = [
 
     "hold",
     "spam",
-    "swipe",
+    "elias1",
     "elias",
     "foch",
     "final"
@@ -592,57 +582,16 @@ if(type === "spam"){
 
 
 
-if(type === "swipe"){
 
-    if(brick.dataset.started) return;
-
-    brick.dataset.started = "true";
-
-    message.innerHTML =
-        "👉 Przesuń cegłę w prawo";
-
-    let startX = 0;
-
-    brick.addEventListener("touchstart",(e)=>{
-
-        startX = e.touches[0].clientX;
-
-    }, { passive:true });
-
-    brick.addEventListener("touchmove",(e)=>{
-
-        let moveX =
-            e.touches[0].clientX;
-
-if(
-    moveX - startX > 80 &&
-    !brick.classList.contains("destroyed")
-){
-
-    brick.classList.add("destroyed");
-
-    destroyed++;
-
-    message.innerHTML =
-        "💨 Cegła przesunięta";
-
-    checkFinish();
-
-}
-
-    }, { passive:true });
-
-    return;
-}
     
-if(type === "elias"){
+if(type === "elias1"){
 
     const answer =
-        prompt("🐶 Najlepszy pies świata?");
+        prompt("Kolor dominujący w naszej gildii to? ");
 
     if(
         answer &&
-        answer.toLowerCase() === "elias"
+        answer.toLowerCase() === "Fioletowy"
     ){
 
         brick.classList.add("destroyed");
@@ -672,27 +621,27 @@ if(type === "foch"){
     message.innerHTML = `
 
         <div style="font-size:24px;margin-bottom:20px;">
-            Klaudia: „ok”
+            Ile lat ma TO?
         </div>
 
         <div style="margin-bottom:15px;">
-            Co to oznacza?
+            HMM?
         </div>
 
         <button onclick="answerCheck(false)">
-            wszystko dobrze
+            1 rok
         </button>
 
         <button onclick="answerCheck(false)">
-            wszystko git
+            3 lata
         </button>
 
         <button onclick="answerCheck(true)">
-            Daniel ma przejebane
+            2 lata
         </button>
 
         <button onclick="answerCheck(false)">
-            nie jestem zła
+            4 lata
         </button>
 
     `;
@@ -702,7 +651,7 @@ if(type === "foch"){
         if(good){
 
             message.innerHTML =
-                "✅ Trafna diagnoza 😬";
+                "✅ Poprawna odpowiedź";
 
             destroyBrick();
 
