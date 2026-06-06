@@ -99,6 +99,7 @@ h1{
         0 2px 5px rgba(0,0,0,0.35);
 
     overflow:hidden;
+}
 
 .brick::before{
 
@@ -329,7 +330,7 @@ const brickNames = [
 
 ];
 
-let destroyed = 40;
+let destroyed = 0;
 
 for(let i=0;i<40;i++){
 
@@ -353,7 +354,7 @@ for(let i=0;i<40;i++){
 
         destroyed++;
 
-        if(destroyed === 28){
+        if(destroyed === 40){
 
             setTimeout(()=>{
 
