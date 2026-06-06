@@ -228,11 +228,11 @@ button{
     padding:16px 28px;
     font-size:22px;
     cursor:pointer;
-    position:absolute;
     transition:0.2s;
 }
 
 #yesBtn{
+    position:absolute;
     background:#47b15d;
     color:white;
     left:50%;
@@ -240,6 +240,7 @@ button{
 }
 
 #noBtn{
+    position:absolute;
     background:#cf4343;
     color:white;
     left:50%;
@@ -438,8 +439,12 @@ function startBreaking(){
 
 if(type === "swipe"){
 
-    message.innerText =
-        "👉 Przesuń cegłę";
+    if(brick.dataset.started) return;
+
+    brick.dataset.started = "true";
+
+    message.innerHTML =
+        "👉 Przesuń cegłę w prawo";
 
     let startX = 0;
 
@@ -447,25 +452,27 @@ if(type === "swipe"){
 
         startX = e.touches[0].clientX;
 
-    });
+    }, { passive:true });
 
     brick.addEventListener("touchmove",(e)=>{
 
         let moveX =
             e.touches[0].clientX;
 
-        if(moveX - startX > 60){
+        if(moveX - startX > 80){
 
             brick.classList.add("destroyed");
 
             destroyed++;
 
-            message.innerText =
+            message.innerHTML =
                 "💨 Cegła przesunięta";
+
+            checkFinish();
 
         }
 
-    });
+    }, { passive:true });
 
     return;
 }
