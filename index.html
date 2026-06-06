@@ -213,8 +213,28 @@ overflow-y:auto;
 }
 
 #questionBox{
+
     display:none;
-    margin-top:30px;
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.55),
+            rgba(0,0,0,0.55)
+        ),
+        url("beg.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    z-index:2000;
+
+    padding-top:120px;
+
 }
 
 .question{
@@ -257,9 +277,28 @@ margin:12px auto;
 }
 
 #finalScreen{
+
     display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.55),
+            rgba(0,0,0,0.55)
+        ),
+        url("happy.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
     animation:appear 0.5s ease;
+
     padding:25px;
+
 }
 
 @keyframes appear{
