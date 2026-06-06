@@ -207,6 +207,8 @@ h1{
     margin-top:10px;
 
     font-size:18px;
+    max-height:320px;
+overflow-y:auto;
 
 }
 
@@ -623,28 +625,43 @@ if(type === "foch"){
 
     `;
 
-window.answerCheck = (good)=>{
+    window.answerCheck = (good)=>{
 
-    if(good){
+        if(good){
 
-        message.innerHTML =
-            "✅ Trafna diagnoza 😬";
+            message.innerHTML =
+                "✅ Trafna diagnoza 😬";
 
-        destroyBrick();
+            destroyBrick();
 
-    }
-    else{
+        }
+        else{
 
-        message.innerHTML =
-            "🚨 Wykryto kłamstwo";
+            message.innerHTML = `
+
+                <div style="font-size:24px;margin-bottom:20px;">
+                    🚨 Wykryto kłamstwo
+                </div>
+
+                <button onclick="retryFoch()">
+                    spróbuj jeszcze raz
+                </button>
+
+            `;
+
+        }
+
+    };
+
+    window.retryFoch = ()=>{
 
         brick.dataset.started = "";
 
-    }
+        startBreaking();
 
-};
+    };
 
-return;
+    return;
 }
 
 if(type === "final"){
