@@ -117,7 +117,7 @@ h1{
 }
 
 #wall{
-    width:230px;
+    width:160px;
     margin:20px auto;
     display:flex;
     flex-wrap:wrap;
@@ -126,8 +126,8 @@ h1{
 
 .brick{
 
-    width:72px;
-    height:38px;
+    width:74px;
+    height:74px;
 
     margin:2px;
 
@@ -309,8 +309,9 @@ button{
 
     <img src="klaudia.png">
 
+</div>
 
-    <div id="questionBox">
+<div id="questionBox">
 
         <div class="question">
             To co… może przestaniemy już udawać, że jesteśmy tylko kolegami?
@@ -396,9 +397,10 @@ const brickNames = [
 
 let destroyed = 0;
 
-for(let i=0;i<18;i++){
+for(let i=0;i<6;i++){
 
     const brick = document.createElement("div");
+    brick.dataset.type = brickTypes[i];
 
     brick.className = "brick";
 
@@ -416,7 +418,111 @@ document.getElementById("progressBar");
 const hammerGirl =
 document.getElementById("hammerGirl");
 
+    const brickTypes = [
+
+    "hold",
+    "spam",
+    "swipe",
+    "elias",
+    "foch",
+    "final"
+
+];
+
 function startBreaking(){
+    const type = brick.dataset.type;
+    if(type === "spam"){
+
+    let clicks = 0;
+
+    message.innerText =
+        "🔥 Klikaj szybko!";
+
+    brick.onclick = ()=>{
+
+        clicks++;
+
+        message.innerText =
+            "Kliknięcia: " + clicks + "/10";
+
+        if(clicks >= 10){
+
+            brick.classList.add("destroyed");
+
+            destroyed++;
+
+            brick.onclick = null;
+
+        }
+
+    };
+
+    return;
+}
+
+if(type === "elias"){
+
+    const answer =
+        prompt("🐶 Najlepszy pies świata?");
+
+    if(
+        answer &&
+        answer.toLowerCase() === "elias"
+    ){
+
+        brick.classList.add("destroyed");
+
+        destroyed++;
+
+        message.innerText =
+            "Poprawna odpowiedź 😎";
+
+    }
+    else{
+
+        message.innerText =
+            "🚨 System wykrył herezję";
+
+    }
+
+    return;
+}
+
+if(type === "foch"){
+
+    let calm = 0;
+
+    message.innerText =
+        "🙄 Klaudia łapie focha! Klikaj!";
+
+    brick.onclick = ()=>{
+
+        calm++;
+
+        message.innerText =
+            "Uspokajanie: " + calm + "/15";
+
+        if(calm >= 15){
+
+            brick.classList.add("destroyed");
+
+            destroyed++;
+
+            brick.onclick = null;
+
+        }
+
+    };
+
+    return;
+}
+
+if(type === "final"){
+
+    message.innerText =
+        "⚠ OSTATNIA BARIERA";
+
+}
 
     if(brick.classList.contains("destroyed")) return;
 
@@ -428,7 +534,7 @@ function startBreaking(){
 
     holdInterval = setInterval(()=>{
 
-        holdProgress += 4;
+        holdProgress += 12;
 
         progressBar.style.width =
             holdProgress + "%";
@@ -454,7 +560,7 @@ function startBreaking(){
 
             destroyed++;
 
-            if(destroyed === 18){
+            if(destroyed === 6){
 
                 setTimeout(()=>{
 
@@ -472,7 +578,7 @@ function startBreaking(){
 
         }
 
-    },40);
+    },25);
 
 }
 
