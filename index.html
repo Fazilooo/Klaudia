@@ -397,13 +397,16 @@ const brickNames = [
 
 let destroyed = 0;
 
-for(let i=0;i<6;i++){
+const brickTypes = [
 
-    const brick = document.createElement("div");
-    brick.dataset.type = brickTypes[i];
+    "hold",
+    "spam",
+    "swipe",
+    "elias",
+    "foch",
+    "final"
 
-    brick.className = "brick";
-
+];
 
 let holdInterval;
 
@@ -418,16 +421,24 @@ document.getElementById("progressBar");
 const hammerGirl =
 document.getElementById("hammerGirl");
 
-    const brickTypes = [
+for(let i=0;i<6;i++){
 
-    "hold",
-    "spam",
-    "swipe",
-    "elias",
-    "foch",
-    "final"
+    const brick = document.createElement("div");
 
-];
+    brick.className = "brick";
+
+    brick.dataset.type = brickTypes[i];
+
+const progressContainer =
+document.getElementById("progressContainer");
+
+const progressBar =
+document.getElementById("progressBar");
+
+const hammerGirl =
+document.getElementById("hammerGirl");
+
+
 
 function startBreaking(){
     const type = brick.dataset.type;
@@ -460,6 +471,41 @@ function startBreaking(){
     return;
 }
 
+
+if(type === "swipe"){
+
+    message.innerText =
+        "👉 Przesuń cegłę";
+
+    let startX = 0;
+
+    brick.addEventListener("touchstart",(e)=>{
+
+        startX = e.touches[0].clientX;
+
+    });
+
+    brick.addEventListener("touchmove",(e)=>{
+
+        let moveX =
+            e.touches[0].clientX;
+
+        if(moveX - startX > 60){
+
+            brick.classList.add("destroyed");
+
+            destroyed++;
+
+            message.innerText =
+                "💨 Cegła przesunięta";
+
+        }
+
+    });
+
+    return;
+}
+    
 if(type === "elias"){
 
     const answer =
