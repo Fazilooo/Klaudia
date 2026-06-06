@@ -587,11 +587,11 @@ if(type === "spam"){
 if(type === "elias1"){
 
     const answer =
-        prompt("Kolor dominujący w naszej gildii to? ");
+        prompt("Kolor dominujący w naszej gildii to?");
 
     if(
         answer &&
-        answer.toLowerCase() === "Fioletowy"
+        answer.toLowerCase().includes("fiolet")
     ){
 
         brick.classList.add("destroyed");
@@ -599,7 +599,9 @@ if(type === "elias1"){
         destroyed++;
 
         message.innerText =
-            "Poprawna odpowiedź 😎";
+            "🎯 Poprawna odpowiedź";
+
+        checkFinish();
 
     }
     else{
