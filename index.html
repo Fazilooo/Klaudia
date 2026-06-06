@@ -1,144 +1,382 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urodzinowa Niespodzianka dla Klaudii</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: url('jezioro_zachod_slonca.jpg') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            color: white;
-        }
-        .header {
-            position: relative;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #800080;
-            margin: 20px auto;
-            width: 80%;
-            max-width: 600px;
-            z-index: 2;
-        }
-        .gift-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            margin-top: 50px;
-            gap: 20px;
-        }
-        .gift {
-            width: 100px;
-            height: 100px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        .gift.active {
-            transform: scale(1.5);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 0 15px #800080;
-            opacity: 0;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        }
-        .modal.show {
-            display: block;
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        .modal button {
-            background: #800080;
-            color: white;
-            border: none;
-            padding: 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-    </style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mur Klaudii</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#1a1a1a;
+    font-family:Arial,sans-serif;
+    overflow:hidden;
+    color:white;
+    text-align:center;
+}
+
+.container{
+    padding:15px;
+}
+
+h1{
+    margin-top:10px;
+    font-size:30px;
+}
+
+.subtitle{
+    opacity:0.8;
+    margin-bottom:20px;
+}
+
+.character{
+    width:170px;
+    margin:0 auto;
+    animation:float 2s ease-in-out infinite;
+}
+
+.character img{
+    width:100%;
+    pointer-events:none;
+    user-select:none;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0px) rotate(-2deg);
+    }
+    50%{
+        transform:translateY(-8px) rotate(2deg);
+    }
+    100%{
+        transform:translateY(0px) rotate(-2deg);
+    }
+}
+
+#wall{
+    width:330px;
+    margin:20px auto;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.brick{
+    width:95px;
+    height:55px;
+    background:#b44343;
+    margin:5px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.6s;
+    user-select:none;
+    box-shadow:0 5px 12px rgba(0,0,0,0.4);
+}
+
+.brick:active{
+    transform:scale(0.9);
+}
+
+.destroyed{
+    opacity:0;
+    transform:
+        rotate(720deg)
+        translateY(400px);
+}
+
+#message{
+    min-height:50px;
+    padding:0 15px;
+    margin-top:10px;
+    font-size:18px;
+}
+
+#questionBox{
+    display:none;
+    margin-top:30px;
+}
+
+.question{
+    font-size:25px;
+    margin-bottom:30px;
+    padding:0 15px;
+}
+
+.buttons{
+    position:relative;
+    width:100%;
+    height:220px;
+}
+
+button{
+    border:none;
+    border-radius:14px;
+    padding:16px 28px;
+    font-size:22px;
+    cursor:pointer;
+    position:absolute;
+    transition:0.2s;
+}
+
+#yesBtn{
+    background:#47b15d;
+    color:white;
+    left:50%;
+    transform:translateX(-120%);
+}
+
+#noBtn{
+    background:#cf4343;
+    color:white;
+    left:50%;
+    transform:translateX(20%);
+}
+
+#finalScreen{
+    display:none;
+    animation:appear 0.5s ease;
+    padding:25px;
+}
+
+@keyframes appear{
+    from{
+        opacity:0;
+        transform:scale(0.7);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.finalTitle{
+    font-size:34px;
+    margin-bottom:25px;
+}
+
+.finalText{
+    font-size:21px;
+    line-height:1.7;
+}
+
+.small{
+    margin-top:25px;
+    opacity:0.6;
+    font-size:14px;
+}
+
+</style>
+
 </head>
+
 <body>
-    <div class="header">
-        <h1>Wszystkiego najlepszego! 🎉</h1>
-        <p>Kochana Klaudio, poniżej przygotowałem dla Ciebie 10 różnych prezentów. Mam nadzieję, że sprawią Ci uśmiech ❤️</p>
+
+<div class="container" id="game">
+
+    <h1>🧱 Mur emocjonalny Klaudii™</h1>
+
+    <div class="subtitle">
+        Status: AKTYWNY ⚠️
     </div>
-    <div class="gift-container">
+
+    <!-- ZMIEŃ NAZWĘ ZDJĘCIA JEŚLI CHCESZ -->
+    <div class="character">
+        <img src="klaudia.png">
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const gifts = [
-                {text: "Nagranie filmiku 🎥 Film na zamówienie. Wymyślasz, ja nagrywam. Im dziwniej, tym lepiej!"},
-                {text: "Zmiana mojego nicku 🏷️ Możesz wymyślić dla mnie dowolny nick, a ja zmieniam go na Discordzie, Steamie, FoE albo gdziekolwiek chcesz."},
-                {text: "Wyzwanie dla mnie 🔥 Jedno wyzwanie, zero wymówek. Jeśli powiesz, że mam to zrobić, robię to."},
-                {text: "Wiadomość do wybranej osoby 💬 Wybierasz osobę. Wybierasz wiadomość. I ja muszę to wysłać. Bez zmian, bez tłumaczenia, bez wahania."},
-                {text: "Szczera odpowiedź na każde pytanie 🤯 Możesz zapytać mnie o cokolwiek i nie mogę kłamać. Muszę powiedzieć prawdę. Bez kombinowania."},
-                {text: "Rozkaz w CS-ie 🎮 Możesz w dowolnym momencie wydać mi jeden rozkaz, który muszę wykonać natychmiast. Nie mogę się sprzeciwić."},
-                {text: "Klaudia wybiera mój awatar 👑 Możesz wybrać mi dowolny obrazek jako nowy awatar na Discordzie, Steamie, FoE… gdziekolwiek chcesz."},
-                {text: "Voucher na poprawę nastroju ❤️ Wystarczy, że powiesz 'Czas na magię' a ja zrobię wszystko, co w mojej mocy, by poprawić Ci humor."},
-                {text: "Zdjęcie na zamówienie 📸 Może to być cokolwiek. Ty decydujesz, a ja je wykonuję bez dyskusji."},
-                {text: "A ostatni prezent… to coś, o czym teraz się nie dowiesz, ale już jest gotowe. Dostaniesz to dopiero wtedy, gdy się zobaczymy 😘"}
-            ];
-            
-            const giftContainer = document.querySelector(".gift-container");
-            let openModal = null;
-            let activeGift = null;
-            
-            function closeOpenModal() {
-                if (openModal) {
-                    openModal.style.display = "none";
-                    openModal.classList.remove("show");
-                    if (activeGift) {
-                        activeGift.classList.remove("active");
-                        activeGift = null;
-                    }
-                    openModal = null;
-                }
-            }
-            
-            for (let i = 0; i < gifts.length; i++) {
-                let gift = document.createElement("img");
-                gift.src = "gift.png";
-                gift.className = "gift";
-                
-                let modal = document.createElement("div");
-                modal.className = "modal";
-                modal.innerHTML = `<p>${gifts[i].text}</p><button class='close-btn'>Zamknij</button>`;
-                document.body.appendChild(modal);
-                
-                let closeButton = modal.querySelector(".close-btn");
-                closeButton.addEventListener("click", closeOpenModal);
-                
-                gift.addEventListener("click", function() {
-                    closeOpenModal();
-                    modal.style.display = "block";
-                    setTimeout(() => modal.classList.add("show"), 10);
-                    openModal = modal;
-                    
-                    gift.classList.add("active");
-                    activeGift = gift;
-                });
-                
-                giftContainer.appendChild(gift);
-            }
-        });
-    </script>
+
+    <div id="wall"></div>
+
+    <div id="message"></div>
+
+    <div id="questionBox">
+
+        <div class="question">
+            To co… może przestaniemy już udawać, że jesteśmy tylko kolegami?
+        </div>
+
+        <div class="buttons">
+
+            <button id="yesBtn">
+                TAK 😳
+            </button>
+
+            <button id="noBtn">
+                NIE 🙄
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="finalScreen">
+
+    <div class="finalTitle">
+        ⚠ SYSTEM ALERT ⚠
+    </div>
+
+    <div class="finalText">
+
+        Klaudia oficjalnie naruszyła mur emocjonalny.<br><br>
+
+        Wykryto podejrzanie wysoki poziom przywiązania
+        do użytkownika „Daniel”.<br><br>
+
+        Aby zakończyć proces,
+        wyślij teraz do niego jedną z poniższych wiadomości:<br><br>
+
+        • „idiota”<br>
+        • „debil”<br>
+        • „spadaj”<br>
+        • lub dobrowolne przyznanie się do winy 😳
+
+    </div>
+
+    <div class="small">
+        Emotional Firewall Disabled
+    </div>
+
+</div>
+
+<script>
+
+const wall = document.getElementById("wall");
+const message = document.getElementById("message");
+const questionBox = document.getElementById("questionBox");
+
+const texts = [
+
+    "Mur otrzymał obrażenia krytyczne 💥",
+    "Klaudia próbuje zachować chłód 😶",
+    "Wykryto lekkie rozbawienie 👀",
+    "Emocjonalny firewall osłabiony ⚠️",
+    "No nie oszukuj systemu 😎",
+    "Mur traci stabilność 🧱",
+    "Daniel użył: upierdliwy urok ✨",
+    "Administrator zaczyna panikować 🚨"
+
+];
+
+const brickNames = [
+
+    "foch",
+    "upór",
+    "dystans",
+    "nie no co ty",
+    "mur premium",
+    "emocjonalny firewall",
+    "ukrywanie",
+    "obraza",
+    "udawanie"
+
+];
+
+let destroyed = 0;
+
+for(let i=0;i<9;i++){
+
+    const brick = document.createElement("div");
+
+    brick.className = "brick";
+
+    brick.innerText =
+        brickNames[Math.floor(Math.random()*brickNames.length)];
+
+    brick.onclick = ()=>{
+
+        if(brick.classList.contains("destroyed")) return;
+
+        brick.classList.add("destroyed");
+
+        if(navigator.vibrate){
+            navigator.vibrate(40);
+        }
+
+        message.innerText =
+            texts[Math.floor(Math.random()*texts.length)];
+
+        destroyed++;
+
+        if(destroyed === 9){
+
+            setTimeout(()=>{
+
+                wall.style.display = "none";
+
+                message.innerHTML =
+                    "🏆 Mur został zniszczony";
+
+                questionBox.style.display = "block";
+
+            },700);
+
+        }
+
+    };
+
+    wall.appendChild(brick);
+
+}
+
+const noBtn = document.getElementById("noBtn");
+
+const noTexts = [
+
+    "Kłamstwo wykryte 🚨",
+    "Przycisk NIE został zablokowany 😎",
+    "Mur próbuje się bronić 🧱",
+    "No nie kombinuj 👀",
+    "Ta opcja jest chwilowo niedostępna 😌"
+
+];
+
+function moveButton(){
+
+    const x =
+        Math.random() * (window.innerWidth - 140);
+
+    const y =
+        Math.random() * 120;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    message.innerText =
+        noTexts[Math.floor(Math.random()*noTexts.length)];
+
+}
+
+noBtn.addEventListener("click", moveButton);
+noBtn.addEventListener("touchstart", moveButton);
+
+document.getElementById("yesBtn")
+.addEventListener("click", ()=>{
+
+    document.getElementById("game")
+    .style.display = "none";
+
+    document.getElementById("finalScreen")
+    .style.display = "block";
+
+    if(navigator.vibrate){
+        navigator.vibrate([100,50,100]);
+    }
+
+});
+
+</script>
+
 </body>
 </html>
