@@ -614,6 +614,38 @@ if(type === "elias1"){
     return;
 }
 
+if(type === "elias"){
+
+    const answer =
+        prompt("🐶 Jak nazywa się pies Klaudii?");
+
+    if(
+        answer &&
+        answer.toLowerCase() === "elias"
+    ){
+
+        brick.classList.add("destroyed");
+
+        destroyed++;
+
+        message.innerText =
+            "🐶 Elias approves";
+
+        checkFinish();
+
+    }
+    else{
+
+        message.innerText =
+            "🚨 Elias jest rozczarowany";
+
+    }
+
+    return;
+}
+
+
+    
 if(type === "foch"){
 
     if(brick.dataset.started) return;
