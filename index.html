@@ -199,10 +199,15 @@ h1{
 }
 
 #message{
-    min-height:50px;
+
+    min-height:260px;
+
     padding:0 15px;
+
     margin-top:10px;
+
     font-size:18px;
+
 }
 
 #questionBox{
@@ -229,6 +234,8 @@ button{
     font-size:22px;
     cursor:pointer;
     transition:0.2s;
+    display:block;
+margin:12px auto;
 }
 
 #yesBtn{
@@ -422,6 +429,26 @@ document.getElementById("progressBar");
 const hammerGirl =
 document.getElementById("hammerGirl");
 
+    function checkFinish(){
+
+    if(destroyed >= 6){
+
+        setTimeout(()=>{
+
+            wall.style.display = "none";
+
+            message.style.display = "none";
+
+            progressContainer.style.display = "none";
+
+            questionBox.style.display = "block";
+
+        },500);
+
+    }
+
+}
+
 for(let i=0;i<6;i++){
 
     const brick = document.createElement("div");
@@ -430,10 +457,64 @@ for(let i=0;i<6;i++){
 
     brick.dataset.type = brickTypes[i];
 
+    function destroyBrick(){
+
+    brick.classList.add("destroyed");
+
+    destroyed++;
+
+    checkFinish();
+
+}
+
 
 
 function startBreaking(){
     const type = brick.dataset.type;
+
+if(type === "spam"){
+
+    if(brick.classList.contains("destroyed")) return;
+
+    if(brick.dataset.started !== "true"){
+
+        brick.dataset.started = "true";
+
+        brick.dataset.clicks = 0;
+
+        message.innerHTML =
+            "🔥 Klikaj cegłę! (0/15)";
+
+    }
+
+    brick.dataset.clicks++;
+
+    message.innerHTML =
+        "🔥 Klikaj cegłę! (" +
+        brick.dataset.clicks +
+        "/15)";
+
+    brick.style.transform =
+        "scale(0.93)";
+
+    setTimeout(()=>{
+
+        brick.style.transform =
+            "scale(1)";
+
+    },60);
+
+    if(brick.dataset.clicks >= 15){
+
+        destroyBrick();
+
+        message.innerHTML =
+            "💥 Cegła spanikowała";
+
+    }
+
+    return;
+}
 
 
 
@@ -614,21 +695,7 @@ if(type === "final"){
 
             destroyed++;
 
-            if(destroyed === 6){
-
-                setTimeout(()=>{
-
-                    wall.style.display = "none";
-
-                    message.style.display = "none";
-
-                    progressContainer.style.display = "none";
-
-                    questionBox.style.display = "block";
-
-                },500);
-
-            }
+checkFinish();
 
         }
 
