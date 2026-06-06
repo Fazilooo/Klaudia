@@ -442,33 +442,6 @@ document.getElementById("hammerGirl");
 
 function startBreaking(){
     const type = brick.dataset.type;
-    if(type === "spam"){
-
-    let clicks = 0;
-
-    message.innerText =
-        "🔥 Klikaj szybko!";
-
-    brick.onclick = ()=>{
-
-        clicks++;
-
-        message.innerText =
-            "Kliknięcia: " + clicks + "/10";
-
-        if(clicks >= 10){
-
-            brick.classList.add("destroyed");
-
-            destroyed++;
-
-            brick.onclick = null;
-
-        }
-
-    };
-
-    return;
 }
 
 
@@ -536,27 +509,54 @@ if(type === "elias"){
 
 if(type === "foch"){
 
-    let calm = 0;
+    if(brick.dataset.started) return;
 
-    message.innerText =
-        "🙄 Klaudia łapie focha! Klikaj!";
+    brick.dataset.started = "true";
 
-    brick.onclick = ()=>{
+    message.innerHTML = `
 
-        calm++;
+        <div style="font-size:24px;margin-bottom:20px;">
+            Klaudia: „ok”
+        </div>
 
-        message.innerText =
-            "Uspokajanie: " + calm + "/15";
+        <div style="margin-bottom:15px;">
+            Co to oznacza?
+        </div>
 
-        if(calm >= 15){
+        <button onclick="answerCheck(false)">
+            wszystko dobrze
+        </button>
 
-            brick.classList.add("destroyed");
+        <button onclick="answerCheck(false)">
+            wszystko git
+        </button>
 
-            destroyed++;
+        <button onclick="answerCheck(true)">
+            Daniel ma przejebane
+        </button>
 
-            brick.onclick = null;
+        <button onclick="answerCheck(false)">
+            nie jestem zła
+        </button>
+
+    `;
+
+    window.answerCheck = (good)=>{
+
+        if(good){
+
+            message.innerHTML =
+                "✅ Trafna diagnoza 😬";
 
         }
+        else{
+
+            message.innerHTML =
+                "🚨 Wykryto kłamstwo";
+
+        }
+
+        destroyBrick();
 
     };
 
@@ -572,6 +572,16 @@ if(type === "final"){
 
     if(brick.classList.contains("destroyed")) return;
 
+    let speed = 12;
+
+if(type === "hold"){
+    speed = 3;
+}
+
+if(type === "final"){
+    speed = 6;
+}
+
     progressContainer.style.display = "block";
 
     hammerGirl.classList.add("active");
@@ -580,7 +590,7 @@ if(type === "final"){
 
     holdInterval = setInterval(()=>{
 
-        holdProgress += 12;
+        holdProgress += speed;
 
         progressBar.style.width =
             holdProgress + "%";
