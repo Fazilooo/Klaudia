@@ -17,7 +17,7 @@ body{
     margin:0;
     background:#1a1a1a;
     font-family:Arial,sans-serif;
-    overflow:hidden;
+    overflow-x:hidden;
     color:white;
     text-align:center;
 }
@@ -540,18 +540,21 @@ if(type === "swipe"){
         let moveX =
             e.touches[0].clientX;
 
-        if(moveX - startX > 80){
+if(
+    moveX - startX > 80 &&
+    !brick.classList.contains("destroyed")
+){
 
-            brick.classList.add("destroyed");
+    brick.classList.add("destroyed");
 
-            destroyed++;
+    destroyed++;
 
-            message.innerHTML =
-                "💨 Cegła przesunięta";
+    message.innerHTML =
+        "💨 Cegła przesunięta";
 
-            checkFinish();
+    checkFinish();
 
-        }
+}
 
     }, { passive:true });
 
@@ -620,20 +623,26 @@ if(type === "foch"){
 
     `;
 
-    window.answerCheck = (good)=>{
+window.answerCheck = (good)=>{
 
-        if(good){
+    if(good){
 
-            message.innerHTML =
-                "✅ Trafna diagnoza 😬";
+        message.innerHTML =
+            "✅ Trafna diagnoza 😬";
 
-        }
-        else{
+        destroyBrick();
 
-            message.innerHTML =
-                "🚨 Wykryto kłamstwo";
+    }
+    else{
 
-        }
+        message.innerHTML =
+            "🚨 Wykryto kłamstwo";
+
+        brick.dataset.started = "";
+
+    }
+
+};
 
         destroyBrick();
 
