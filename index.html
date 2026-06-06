@@ -37,31 +37,87 @@ h1{
 }
 
 .character{
-    width:170px;
-    margin:0 auto;
-    animation:float 2s ease-in-out infinite;
+
+    width:180px;
+
+    position:fixed;
+
+    bottom:10px;
+
+    right:-250px;
+
+    z-index:999;
+
+    transition:0.2s;
+
+}
+
+.character.active{
+
+    right:0px;
+
+    animation:hammerHit 0.22s infinite;
+
 }
 
 .character img{
+
     width:100%;
+
     pointer-events:none;
+
     user-select:none;
+
 }
 
-@keyframes float{
+@keyframes hammerHit{
+
     0%{
-        transform:translateY(0px) rotate(-2deg);
+        transform:rotate(0deg);
     }
+
     50%{
-        transform:translateY(-8px) rotate(2deg);
+        transform:rotate(-12deg);
     }
+
     100%{
-        transform:translateY(0px) rotate(-2deg);
+        transform:rotate(0deg);
     }
+
+}
+
+#progressContainer{
+
+    width:220px;
+
+    height:14px;
+
+    background:#333;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin:10px auto;
+
+    display:none;
+
+}
+
+#progressBar{
+
+    width:0%;
+
+    height:100%;
+
+    background:#47b15d;
+
+    transition:width 0.04s linear;
+
 }
 
 #wall{
-    width:390px;
+    width:230px;
     margin:20px auto;
     display:flex;
     flex-wrap:wrap;
@@ -237,14 +293,22 @@ button{
         Status: AKTYWNY ⚠️
     </div>
 
-    <!-- ZMIEŃ NAZWĘ ZDJĘCIA JEŚLI CHCESZ -->
-    <div class="character">
-        <img src="klaudia.png">
-    </div>
+
 
     <div id="wall"></div>
 
     <div id="message"></div>
+
+    <div id="progressContainer">
+
+    <div id="progressBar"></div>
+
+</div>
+
+<div class="character" id="hammerGirl">
+
+    <img src="klaudia.png">
+
 
     <div id="questionBox">
 
@@ -332,44 +396,109 @@ const brickNames = [
 
 let destroyed = 0;
 
-for(let i=0;i<40;i++){
+for(let i=0;i<18;i++){
 
     const brick = document.createElement("div");
 
     brick.className = "brick";
 
 
-    brick.onclick = ()=>{
+let holdInterval;
 
-        if(brick.classList.contains("destroyed")) return;
+let holdProgress = 0;
 
-        brick.classList.add("destroyed");
+const progressContainer =
+document.getElementById("progressContainer");
 
-        if(navigator.vibrate){
-            navigator.vibrate(40);
+const progressBar =
+document.getElementById("progressBar");
+
+const hammerGirl =
+document.getElementById("hammerGirl");
+
+function startBreaking(){
+
+    if(brick.classList.contains("destroyed")) return;
+
+    progressContainer.style.display = "block";
+
+    hammerGirl.classList.add("active");
+
+    holdProgress = 0;
+
+    holdInterval = setInterval(()=>{
+
+        holdProgress += 4;
+
+        progressBar.style.width =
+            holdProgress + "%";
+
+        if(holdProgress >= 100){
+
+            clearInterval(holdInterval);
+
+            brick.classList.add("destroyed");
+
+            hammerGirl.classList.remove("active");
+
+            progressContainer.style.display = "none";
+
+            progressBar.style.width = "0%";
+
+            if(navigator.vibrate){
+                navigator.vibrate(80);
+            }
+
+            message.innerText =
+                texts[Math.floor(Math.random()*texts.length)];
+
+            destroyed++;
+
+            if(destroyed === 18){
+
+                setTimeout(()=>{
+
+                    wall.style.display = "none";
+
+                    message.style.display = "none";
+
+                    progressContainer.style.display = "none";
+
+                    questionBox.style.display = "block";
+
+                },500);
+
+            }
+
         }
 
-        message.innerText =
-            texts[Math.floor(Math.random()*texts.length)];
+    },40);
 
-        destroyed++;
+}
 
-        if(destroyed === 40){
+function stopBreaking(){
 
-            setTimeout(()=>{
+    clearInterval(holdInterval);
 
-                wall.style.display = "none";
+    holdProgress = 0;
 
-                message.innerHTML =
-                    "🏆 Mur został zniszczony";
+    progressBar.style.width = "0%";
 
-                questionBox.style.display = "block";
+    progressContainer.style.display = "none";
 
-            },700);
+    hammerGirl.classList.remove("active");
 
-        }
+}
 
-    };
+brick.addEventListener("mousedown", startBreaking);
+
+brick.addEventListener("touchstart", startBreaking);
+
+brick.addEventListener("mouseup", stopBreaking);
+
+brick.addEventListener("mouseleave", stopBreaking);
+
+brick.addEventListener("touchend", stopBreaking);
 
     wall.appendChild(brick);
 
