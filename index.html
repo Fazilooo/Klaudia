@@ -451,6 +451,7 @@ document.getElementById("hammerGirl");
 
 }
 
+    let activeBrick = null;
 for(let i=0;i<6;i++){
 
     const brick = document.createElement("div");
@@ -466,6 +467,7 @@ for(let i=0;i<6;i++){
     destroyed++;
 
     checkFinish();
+        activeBrick = null;
 
 }
 
@@ -473,6 +475,15 @@ for(let i=0;i<6;i++){
 
 function startBreaking(){
     const type = brick.dataset.type;
+    if(activeBrick && activeBrick !== brick){
+
+    message.innerHTML = "";
+
+    activeBrick.dataset.started = "";
+
+}
+
+activeBrick = brick;
 
 if(type === "spam"){
 
